@@ -42,6 +42,7 @@ export class PokemonSearch extends Component<User, searchState> {
                     this.setState({ error: true});
                     return
                 }else{
+                    
                     res.json().then(data =>{
                         this.setState({
                             error:false,
@@ -51,7 +52,7 @@ export class PokemonSearch extends Component<User, searchState> {
                                 baseExperience: data.base_experience,
                                 imageUrl: data.sprites.front_default
                             },
-                            jsonResponse: data.name
+                            jsonResponse: JSON.stringify(data)
                         })
                     })
                 }
@@ -64,7 +65,6 @@ export class PokemonSearch extends Component<User, searchState> {
     }
 
     render() {
-        const{name: userName, numberOfPokemons} = this.props;
         const{
             error, 
             pokemon
@@ -91,8 +91,7 @@ export class PokemonSearch extends Component<User, searchState> {
         return (
             <div>
                 <p>
-                    User {userName} {' '}
-                    {numberOfPokemons && <span> has {numberOfPokemons} pokemons </span>} 
+                    Search for a pokemon by name:
                 </p>
                 <input type ="text" ref = {this.pokemonRef}/>
                 <button onClick = {this.onSearchClick} className = "searchButton">
@@ -101,7 +100,9 @@ export class PokemonSearch extends Component<User, searchState> {
                 {resultMarkUp}
                 <br/>
                 <br/>
-                <br/>
+                <p>
+                    JSON response:
+                </p>
                 {jsonResponse}
             </div>
         )
